@@ -73,8 +73,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:src="@drawable/bg_soso"
-        app:layout_constraintDimensionRatio="h,1:1"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="h,1:1"
         app:layout_constraintEnd_toEndOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="parent"
@@ -120,23 +120,23 @@
         app:layout_constraintTop_toBottomOf="@+id/img_bg" />
 
     <TextView
+        android:id="@+id/tv_check_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_check_time"
-        android:text="2021-08-29 13:00"
-        android:textSize="13sp"
-        android:textColor="@color/gray"
         android:letterSpacing="-0.05"
+        android:text="2021-08-29 13:00"
+        android:textColor="@color/gray"
+        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/check_time" />
 
     <ImageView
+        android:id="@+id/btn_refresh"
         android:layout_width="28dp"
         android:layout_height="28dp"
         android:layout_marginTop="20dp"
         android:padding="5dp"
-        android:id="@+id/btn_refresh"
         android:src="@drawable/icon_refresh"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

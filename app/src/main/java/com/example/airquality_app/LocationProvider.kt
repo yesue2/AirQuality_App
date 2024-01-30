@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
+import android.util.Log
 import androidx.core.content.ContextCompat
 
 class LocationProvider(val context: Context) {
@@ -75,7 +76,7 @@ class LocationProvider(val context: Context) {
 
     // 위도 정보 가져오는 함수
     fun getLocationLatitude(): Double {
-        return location?.longitude ?: 0.0  // null이면 0.0 반환
+        return location?.latitude ?: 0.0  // null이면 0.0 반환
     }
 
     // 경도 정보 가져오는 함수
