@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,6 +19,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.airquality_app.databinding.ActivityMainBinding
+import java.io.IOException
+import java.lang.IllegalArgumentException
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -31,12 +36,39 @@ class MainActivity : AppCompatActivity() {
 
     // 위치 서비스 요청 시 필요한 런처
     lateinit var getGPSPermissionLauncher: ActivityResultLauncher<Intent>
+
+    // 위도와 경도 가져올 떄 필요
+    lateinit var locationProvider: LocationProvider
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         checkAllPermissions()  // 권한 확인
+        updateUI()
+    }
+
+    private fun updateUI() {
+        locationProvider = LocationProvider(this@MainActivity)
+
+        // 위도와 경도 정보를 가져옴
+        val latitude: Double = locationProvider.getLocationLatitude()
+        val longitude: Double = locationProvider.getLocationLongitude()
+
+        if (latitude != 0.0 || longitude != 0.0) {
+            // 현재 위치를 가져오기
+            val address = getCurrentAddress(latitude, longitude)
+            // 주소가 null이 아닐 경우 UI 업데이트
+            address?.let {
+                binding.tvLocationTitle.text = "${it.thoroughfare}"
+                binding.tvLocationSubtitle.text = "${it.countryName} ${it.adminArea}"
+            }
+
+            // 현재 미세먼지 농도 가져오고 UI 업데이트
+        } else {
+            Toast.makeText(this@MainActivity, "위도, 경도 정보를 가져올 수 없습니다. 새로고침을 눌러주세요.", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun checkAllPermissions() {
@@ -89,6 +121,7 @@ class MainActivity : AppCompatActivity() {
             }
             if (checkResult) {
                 // 위칫값 가져오기
+                updateUI()
             } else {
                 // 퍼미션 거부되면 앱 종료
                 Toast.makeText(this@MainActivity, "권한이 거부되었습니다. 앱을 다시 실행하여 권한을 허용해주세요.", Toast.LENGTH_LONG).show()
@@ -131,5 +164,32 @@ class MainActivity : AppCompatActivity() {
         })
         // 다이얼로그 생성 및 출력
         builder.create().show()
+    }
+
+    // 지오코딩 함수
+    fun getCurrentAddress(latitude: Double, longitude: Double) : Address? {
+        val geocoder = Geocoder(this, Locale.getDefault())
+        // Address 객체는 주소와 관련된 여러 정보를 갖고 있음 => android.location.Address 참고
+        val addresses: List<Address>?
+
+        addresses = try {
+            // Geocoder 객체를 이용하여 위도와 경도로부터 리스트를 가져옴
+            geocoder.getFromLocation(latitude, longitude, 7)
+        } catch (ioException: IOException) {
+            Toast.makeText(this@MainActivity, "지오코더 서비스 사용 불가합니다.", Toast.LENGTH_SHORT).show()
+            return null
+        } catch (illegalArgumentException: IllegalArgumentException) {
+            Toast.makeText(this@MainActivity, "잘못된 경도, 위도 입니다.", Toast.LENGTH_SHORT).show()
+            return null
+        }
+
+        // 에러는 아니지만 주소가 발견되지 않은 경우
+        if (addresses == null || addresses.size == 0) {
+            Toast.makeText(this@MainActivity, "주소가 발견되지 않았습니다.", Toast.LENGTH_SHORT).show()
+            return null
+        }
+
+        val address: Address = addresses[0]
+        return address
     }
 }
