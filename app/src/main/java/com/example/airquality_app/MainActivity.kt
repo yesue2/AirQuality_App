@@ -125,7 +125,7 @@ class MainActivity : AppCompatActivity() {
                 if (it.thoroughfare == null) {
                     binding.tvLocationSubtitle.text = "${it.adminArea} ${it.locality}"
                     binding.tvLocationTitle.text = "${it.subLocality}"
-                } else if (it.subLocality == null) {=
+                } else if (it.subLocality == null) {
                     binding.tvLocationSubtitle.text = "${it.adminArea} ${it.locality}"
                     binding.tvLocationTitle.text = "${it.thoroughfare}"
                 } else if (it.locality == null) {
