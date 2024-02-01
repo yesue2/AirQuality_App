@@ -4,4 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="softBlack">#4c4c4c</color>
     <color name="gray">#999999</color>
+    <color name="skyBlue">#409CFF</color>
+    <color name="skyBlue_transparent">#6F44A7FD</color>
 </resources>

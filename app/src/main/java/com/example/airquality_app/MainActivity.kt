@@ -12,6 +12,8 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -40,6 +42,8 @@ class MainActivity : AppCompatActivity() {
     var REQUIRED_PERMISSIONS = arrayOf(
         android.Manifest.permission.ACCESS_FINE_LOCATION,
         android.Manifest.permission.ACCESS_COARSE_LOCATION
+
+
     )
 
     // 위치 서비스 요청 시 필요한 런처
@@ -47,6 +51,24 @@ class MainActivity : AppCompatActivity() {
 
     // 위도와 경도 가져올 떄 필요
     lateinit var locationProvider: LocationProvider
+
+    // 위도, 경도 저장
+    var latitude: Double = 0.0
+    var longitude: Double = 0.0
+
+    // 결과를 받아와야 하는 액티비티를 실행할 때 사용하는 변수 선언
+    // registerForActivityResult(: 다른 액티비티의 실행 결과를 콜백에 등록) 객체 생성
+    // 콜백은 해당 액티비티가 결과를 반환할 때 실행
+    val startMapActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), object : ActivityResultCallback<ActivityResult> {
+        override fun onActivityResult(result: ActivityResult) {
+            if (result?.resultCode ?: 0 == Activity.RESULT_OK) {
+                // 지도 페이지에서 위도와 경도 반환
+                latitude = result?.data?.getDoubleExtra("latitude", 0.0) ?: 0.0
+                longitude = result?.data?.getDoubleExtra("longitude", 0.0) ?: 0.0
+                updateUI()
+            }
+        }
+    })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +80,19 @@ class MainActivity : AppCompatActivity() {
 
         // 새로고침 버튼 클릭 시
         setRefreshButton()
+
+        // 플로팅 액션 버튼 클릭 시
+        setFab()
+    }
+
+    private fun setFab() {
+        binding.fab.setOnClickListener {
+            val intent = Intent(this@MainActivity, MapActivity::class.java)
+            intent.putExtra("currentLat", latitude)
+            intent.putExtra("currntLng", longitude)
+            // startMapActivityResult.launch() : 지도 페이지로 이동하고, 등록해둔 onActivityResult 콜백에 보낸 값이 전달
+            startMapActivityResult.launch(intent)
+        }
     }
 
     private fun setRefreshButton() {
@@ -68,12 +103,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateUI() {
         locationProvider = LocationProvider(this@MainActivity)
-
-        // 위도와 경도 정보를 가져옴
-        val latitude: Double = locationProvider.getLocationLatitude()
-        val longitude: Double = locationProvider.getLocationLongitude()
-
-        Log.d("MyTag", "Latitude: $latitude, Longitude: $longitude")
+        if (latitude == 0.0 || longitude == 0.0) {
+            // 위도와 경도 정보를 가져옴
+            latitude = locationProvider.getLocationLatitude()
+            longitude = locationProvider.getLocationLongitude()
+            Log.d("MyTag", "Latitude: $latitude, Longitude: $longitude")
+        }
 
         if (latitude != 0.0 || longitude != 0.0) {
             // 현재 위치를 가져오기
@@ -83,17 +118,23 @@ class MainActivity : AppCompatActivity() {
             var adminArea  : String? = address?.adminArea
             var locality  : String? = address?.locality
             var thoroughfare  : String? = address?.thoroughfare
-            var subThoroughfare  : String? = address?.subThoroughfare
-            var featureName  : String? = address?.featureName
-            var postalCode  : String? = address?.postalCode
-            Log.d("MyTag", "adminArea: $adminArea, locality: $locality, thoroughfare: $thoroughfare\nsubThoroughfare: $subThoroughfare, featureName: $featureName, postalCode $postalCode")
+            var subLocality  : String? = address?.subLocality
+            var subThoroughfare : String? = address?.subThoroughfare
+            Log.d("MyTag", "adminArea: $adminArea, locality: $locality, subLocality: $subLocality, thoroughfare: $thoroughfare, subThoroughfare: $subThoroughfare")
             address?.let {
                 if (it.thoroughfare == null) {
-                    binding.tvLocationTitle.text = "${it.locality} 내위치"
+                    binding.tvLocationSubtitle.text = "${it.adminArea} ${it.locality}"
+                    binding.tvLocationTitle.text = "${it.subLocality}"
+                } else if (it.subLocality == null) {=
+                    binding.tvLocationSubtitle.text = "${it.adminArea} ${it.locality}"
+                    binding.tvLocationTitle.text = "${it.thoroughfare}"
+                } else if (it.locality == null) {
+                    binding.tvLocationSubtitle.text = "${it.adminArea} ${it.subLocality}"
+                    binding.tvLocationTitle.text = "${it.thoroughfare}"
                 } else {
+                    binding.tvLocationSubtitle.text = "${it.adminArea} ${it.locality} ${it.subLocality}"
                     binding.tvLocationTitle.text = "${it.thoroughfare}"
                 }
-                binding.tvLocationSubtitle.text = "${it.countryName} ${it.adminArea}"
             }
             // 현재 미세먼지 농도 가져오고 UI 업데이트
             getAirQualityData(latitude, longitude)
