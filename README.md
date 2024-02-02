@@ -1,4 +1,6 @@
 ## ☀️ AirQuality Application
+![Component 1](https://github.com/yesue2/AirQuality_App/assets/108323785/2234a201-c096-463c-9f58-e5768709ac6f)
+
 ## 📌 주요 기능
 ### 미세먼지 농도 측정
 1. 사용자의 **현위치 기반** 미세먼지 농도 측정
