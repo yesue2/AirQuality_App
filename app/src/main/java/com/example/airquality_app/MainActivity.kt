@@ -23,6 +23,10 @@ import com.example.airquality_app.databinding.ActivityMainBinding
 import com.example.airquality_app.retrofit.AirQualityResponse
 import com.example.airquality_app.retrofit.AirQualityService
 import com.example.airquality_app.retrofit.RetrofitConnection
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -83,6 +87,9 @@ class MainActivity : AppCompatActivity() {
 
         // 플로팅 액션 버튼 클릭 시
         setFab()
+
+        // 배너 실행 함수
+        setBannerAds()
     }
 
     private fun setFab() {
@@ -330,5 +337,35 @@ class MainActivity : AppCompatActivity() {
 
         val address: Address = addresses[0]
         return address
+    }
+
+    // 배너 광고 설정 함수
+    private fun setBannerAds() {
+        MobileAds.initialize(this) // 구글 모바일 광고 SDK 초기화
+        val adRequest = AdRequest.Builder().build()  // AdRequest 객체 생성 => 광고 요청에 대한 타깃팅 정보 있음
+        binding.adView.loadAd(adRequest) // 애드뷰에 광고 로드
+
+        // 애드뷰 리스너
+        binding.adView.adListener = object  : AdListener() {
+            override fun onAdLoaded() {
+                Log.d("ads log", "배너 광고가 로드되었습니다.")
+            }
+
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                Log.d("ads log", "배너 광고가 로드 실패했습니다. ${adError.responseInfo}")
+            }
+
+            override fun onAdOpened() {
+                Log.d("ads log", "배너 광고를 열었습니다.")
+            }
+
+            override fun onAdClicked() {
+                Log.d("ads log", "배너 광고를 클릭했습니다.")
+            }
+
+            override fun onAdClosed() {
+                Log.d("ads log", "배너 광고를 닫았습니다.")
+            }
+        }
     }
 }
