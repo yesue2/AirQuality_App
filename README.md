@@ -15,7 +15,7 @@
 - [x] 지도에서 위치 선택해 미세먼지 농도 조회 기능 추가
 - [x] 구글 애드몹 광고 추가
 - [x] 파이어베이스 애널리틱스 연동
-- [ ] 스토어 배포
+- [ ] 스토어 배포 👉 테스터 심사 진행중
 ## 📱 실행 화면
 ### 초기 버전
 ![Screen_Recording_20240130_233248_Permission-controller](https://github.com/yesue2/AirQuality_App/assets/108323785/382116de-2c85-4b24-8dd3-510f7adf254a)
