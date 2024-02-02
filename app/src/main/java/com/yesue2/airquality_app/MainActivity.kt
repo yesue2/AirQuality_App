@@ -408,7 +408,7 @@ class MainActivity : AppCompatActivity() {
     private fun setInterstitialAds() {
         val adRequest = AdRequest.Builder().build()
 
-        InterstitialAd.load(this, "ca-app-pub-3940256099942544/1033173712", adRequest, object : InterstitialAdLoadCallback() {
+        InterstitialAd.load(this, "ca-app-pub-6378926647820664/5039485321", adRequest, object : InterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 Log.d("ads log", "전면 광고가 로드 실패했습니다. ${adError.responseInfo}")
                 mInterstitialAd = null
