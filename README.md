@@ -13,4 +13,9 @@
 - [ ] 광고 추가
 - [ ] 스토어 배포
 ## 📱 실행 화면
+### 초기 버전
 ![Screen_Recording_20240130_233248_Permission-controller](https://github.com/yesue2/AirQuality_App/assets/108323785/382116de-2c85-4b24-8dd3-510f7adf254a)
+
+### 지도 기능 추가 버전
+![4ac984ea-f0ac-4d04-8a8a-3742e4834caa (2)](https://github.com/yesue2/AirQuality_App/assets/108323785/f52f414f-8925-48dc-8a89-3c9b0c7dcd47)
+
