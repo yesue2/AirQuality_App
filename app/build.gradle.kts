@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.airquality_app"
+    namespace = "com.yesue2.airquality_app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.airquality_app"
+        applicationId = "com.yesue2.airquality_app"
         minSdk = 34
         targetSdk = 34
         versionCode = 1

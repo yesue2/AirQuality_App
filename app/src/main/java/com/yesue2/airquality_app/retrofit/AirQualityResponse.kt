@@ -1,4 +1,4 @@
-package com.example.airquality_app.retrofit
+package com.yesue2.airquality_app.retrofit
 
 data class AirQualityResponse(
     val `data`: Data,

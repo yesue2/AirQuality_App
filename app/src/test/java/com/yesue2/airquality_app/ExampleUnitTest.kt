@@ -1,4 +1,4 @@
-package com.example.airquality_app
+package com.yesue2.airquality_app
 
 import org.junit.Test
 

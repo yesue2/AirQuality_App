@@ -1,10 +1,11 @@
-package com.example.airquality_app
+package com.yesue2.airquality_app
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.airquality_app.databinding.ActivityMapBinding
+import com.yesue2.airquality_app.R
+import com.yesue2.airquality_app.databinding.ActivityMapBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -40,7 +41,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 intent.putExtra("latitude", it.cameraPosition.target.latitude)
                 intent.putExtra("longitude", it.cameraPosition.target.longitude)
                 // setResult() 함수: MainActivity.kt에서 정의해두었던 onActivityResult() 함수 실행
-                setResult(Activity.RESULT_OK, intent)
+                setResult(RESULT_OK, intent)
                 finish()  // 지도 액티비티 종료
             }
         }

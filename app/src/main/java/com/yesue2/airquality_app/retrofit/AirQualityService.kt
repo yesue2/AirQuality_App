@@ -1,4 +1,4 @@
-package com.example.airquality_app.retrofit
+package com.yesue2.airquality_app.retrofit
 
 import retrofit2.Call
 import retrofit2.http.GET

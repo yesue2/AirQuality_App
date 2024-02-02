@@ -1,4 +1,4 @@
-package com.example.airquality_app
+package com.yesue2.airquality_app
 
 import android.app.Activity
 import android.content.DialogInterface
@@ -19,10 +19,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.airquality_app.databinding.ActivityMainBinding
-import com.example.airquality_app.retrofit.AirQualityResponse
-import com.example.airquality_app.retrofit.AirQualityService
-import com.example.airquality_app.retrofit.RetrofitConnection
+import com.yesue2.airquality_app.R
+import com.yesue2.airquality_app.databinding.ActivityMainBinding
+import com.yesue2.airquality_app.retrofit.AirQualityResponse
+import com.yesue2.airquality_app.retrofit.AirQualityService
+import com.yesue2.airquality_app.retrofit.RetrofitConnection
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
