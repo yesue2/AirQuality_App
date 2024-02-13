@@ -1,5 +1,6 @@
 ## ☀️ AirQuality Application
 ![Component 1](https://github.com/yesue2/AirQuality_App/assets/108323785/2234a201-c096-463c-9f58-e5768709ac6f)
+- 개인으로 진행한 사이드 프로젝트
 
 ## 📌 주요 기능
 ### 미세먼지 농도 측정
